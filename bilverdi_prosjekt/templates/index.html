@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="no"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bilverdi – prisestimat for brukt bil</title>
+<style>
+:root{--bg:#f5f6f8;--card:#fff;--fg:#1c2430;--mut:#6b7686;--ac:#1f6feb;--bd:#dde1e8}
+@media(prefers-color-scheme:dark){:root{--bg:#12161c;--card:#1b222b;--fg:#e8ecf1;--mut:#97a3b3;--ac:#58a6ff;--bd:#2d3744}}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,sans-serif;background:var(--bg);color:var(--fg)}
+main{max-width:760px;margin:0 auto;padding:24px 16px}h1{margin:0 0 4px}p.s{color:var(--mut);margin:0 0 20px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:20px;margin-bottom:16px}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+label{display:flex;flex-direction:column;font-size:.85rem;color:var(--mut);gap:4px}
+input,select{padding:9px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--fg);font-size:1rem}
+button{margin-top:16px;width:100%;padding:12px;font-size:1.05rem;border:0;border-radius:8px;background:var(--ac);color:#fff;cursor:pointer}
+#res{display:none;text-align:center}#res .p{font-size:2.4rem;font-weight:700;color:var(--ac)}#res .r{color:var(--mut)}
+.o{color:var(--mut);font-size:.85rem;margin-top:10px}
+</style></head><body><main>
+<h1>🚗 Bilverdi</h1><p class="s">Maskinlæringsbasert prisestimat for brukt bil (USD, amerikansk marked).</p>
+<form id="f" class="card"><div class="g">
+<label>Merke<select name="brand" id="brand">{% for b in meta.brands %}<option>{{b}}</option>{% endfor %}</select></label>
+<label>Modell<select name="model" id="model"></select></label>
+<label>Årsmodell<input type="number" name="model_year" min="1990" max="{{year}}" value="2018" required></label>
+<label>Kjørelengde (miles)<input type="number" name="milage" min="0" value="60000" required></label>
+<label>Drivstoff<select name="fuel_type">{% for x in meta.fuel_types %}<option>{{x}}</option>{% endfor %}</select></label>
+<label>Girkasse<select name="trans_type">{% for x in meta.trans_types %}<option>{{x}}</option>{% endfor %}</select></label>
+<label>Motoreffekt (hk, valgfri)<input type="number" name="hp" min="30" max="1200"></label>
+<label>Motorstørrelse (liter)<input type="number" step="0.1" name="liters" min="0.6" max="8.4" value="{{meta.defaults.liters}}"></label>
+<label>Sylindre<input type="number" name="cylinders" min="3" max="12" value="{{meta.defaults.cylinders|int}}"></label>
+<label>Utvendig farge<select name="ext_col">{% for x in meta.colors %}<option>{{x}}</option>{% endfor %}</select></label>
+<label>Interiørfarge<select name="int_col">{% for x in meta.int_colors %}<option>{{x}}</option>{% endfor %}</select></label>
+<label>Ulykke/skade registrert<select name="accident"><option value="no">Nei</option><option value="yes">Ja</option></select></label>
+<label>Ren tittel (clean title)<select name="clean_title"><option value="yes">Ja</option><option value="no">Nei / ukjent</option></select></label>
+</div><button>Estimer pris</button></form>
+<div id="res" class="card"><div class="r">Estimert salgspris</div><div class="p" id="p"></div>
+<div class="r" id="rng"></div><div class="o">Intervallet dekker ca. 80 % av tilfellene i testdata. Estimatet er veiledende.</div></div>
+<script>
+const M={{meta.models_by_brand|tojson}},B=document.getElementById('brand'),Mo=document.getElementById('model');
+function fill(){Mo.innerHTML=(M[B.value]||[]).map(m=>`<option>${m}</option>`).join('')}B.onchange=fill;fill();
+const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');
+document.getElementById('f').onsubmit=async e=>{e.preventDefault();
+ const d=Object.fromEntries(new FormData(e.target));
+ const r=await fetch('/predict',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});
+ const j=await r.json();const box=document.getElementById('res');box.style.display='block';
+ if(j.error){p.textContent='Feil';rng.textContent=j.error;return}
+ p.textContent=fmt(j.estimate);rng.textContent=`Sannsynlig område: ${fmt(j.low)} – ${fmt(j.high)}`};
+</script></main></body></html>

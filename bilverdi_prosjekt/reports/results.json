@@ -1,0 +1,115 @@
+{
+ "results": {
+  "Baseline (median)": {
+   "cv_mae": 23340.268652037616,
+   "mae": 23711.977443609023,
+   "medae": 15010.0,
+   "rmse": 41722.78774975256,
+   "r2": -0.0698682040130516,
+   "mape": 83.76119417472532,
+   "within_20pct": 22.05513784461153
+  },
+  "Ridge": {
+   "cv_mae": 8787.931804203927,
+   "mae": 8254.389684687781,
+   "medae": 4203.007122917605,
+   "rmse": 17109.741958934243,
+   "r2": 0.8200836784899859,
+   "mape": 20.982278985427197,
+   "within_20pct": 60.902255639097746
+  },
+  "Random Forest": {
+   "cv_mae": 9218.844118067183,
+   "mae": 9325.039812495323,
+   "medae": 4351.468032548695,
+   "rmse": 19375.370612613788,
+   "r2": 0.7692808301004486,
+   "mape": 22.98000134406168,
+   "within_20pct": 60.0250626566416
+  },
+  "Gradient Boosting": {
+   "cv_mae": 7209.0350168798805,
+   "mae": 7048.123791349833,
+   "medae": 3813.084532981621,
+   "rmse": 13430.523684400343,
+   "r2": 0.8891413622246334,
+   "mape": 18.11125881931829,
+   "within_20pct": 67.41854636591479
+  },
+  "Gradient Boosting (tunet)": {
+   "cv_mae": 6976.076442660937,
+   "mae": 6651.02171928364,
+   "medae": 3475.7889936674483,
+   "rmse": 12129.416918602821,
+   "r2": 0.9095802104679913,
+   "mape": 17.65046689562597,
+   "within_20pct": 67.91979949874687
+  }
+ },
+ "n_rows": 3988,
+ "n_removed": 21,
+ "best_params": {
+  "m__regressor__min_samples_leaf": 10,
+  "m__regressor__max_leaf_nodes": 15,
+  "m__regressor__max_iter": 600,
+  "m__regressor__learning_rate": 0.08,
+  "m__regressor__l2_regularization": 0.1
+ },
+ "mape_by_age": {
+  "0-3": 13.1,
+  "4-7": 13.7,
+  "8-12": 17.2,
+  "13-20": 23.7,
+  "21+": 31.8
+ },
+ "mape_by_price": {
+  "Q1 (billigst)": 24.3,
+  "Q2": 16.8,
+  "Q3": 14.2,
+  "Q4 (dyrest)": 15.2
+ },
+ "mape_by_brand_best": {
+  "Lexus": 10.0,
+  "Tesla": 11.2,
+  "Jeep": 13.5
+ },
+ "mape_by_brand_worst": {
+  "Mercedes-Benz": 19.2,
+  "Chevrolet": 20.8,
+  "Nissan": 28.0
+ },
+ "importance": {
+  "ext_col": 5.0,
+  "clean_title": 43.0,
+  "gears": 61.0,
+  "accident": 94.0,
+  "trans_type": 98.0,
+  "int_col": 118.0,
+  "fuel_type": 272.0,
+  "cylinders": 508.0,
+  "miles_per_year": 660.0,
+  "model_base": 2555.0,
+  "liters": 4045.0,
+  "brand": 5509.0,
+  "hp": 5698.0,
+  "age": 6630.0,
+  "milage": 8157.0
+ },
+ "missing": {
+  "brand": 0.0,
+  "model_base": 0.0,
+  "fuel_type": 0.0,
+  "trans_type": 0.0,
+  "ext_col": 0.0,
+  "int_col": 0.0,
+  "age": 0.0,
+  "milage": 0.0,
+  "hp": 0.199,
+  "liters": 0.054,
+  "cylinders": 0.097,
+  "gears": 0.463,
+  "accident": 0.0,
+  "clean_title": 0.0,
+  "miles_per_year": 0.0
+ }
+}

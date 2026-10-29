@@ -18,10 +18,6 @@ python src/train.py        # reproduserer resultatene (tar ca. 1 min)
 python src/app.py          # åpne http://localhost:5000
 ```
 
-## Deploy
-- Docker: `docker build -t bilverdi . && docker run -p 5000:5000 bilverdi`
-- Render/Railway/Fly.io: koble GitHub-repoet, start-kommando `gunicorn --chdir src app:app`.
-
 ## Kilder
 Datasett: Kaggle «Used Car Price Prediction Dataset». Verktøy: scikit-learn, Flask, pandas.
-Koden er utviklet med hjelp av Claude (Anthropic) som AI-kodeassistent.
+Koden er utviklet med hjelp av Claude som AI-kodeassistent.
